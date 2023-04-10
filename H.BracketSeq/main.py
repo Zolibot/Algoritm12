@@ -1,5 +1,26 @@
-from collections import Counter
-from typing import List
+from typing import Dict
+
+
+class Stack:
+    def __init__(self):
+        self.items = []
+        self.index = 0
+
+    def push(self, item):
+        self.index += 1
+        self.items.append(item)
+
+    def pop(self):
+        if self.index == 0:
+            return None
+        self.index -= 1
+        return self.items.pop()
+
+    def peek(self):
+        return self.items[-1]
+
+    def size(self):
+        return self.index
 
 
 def load_data() -> None:
@@ -8,12 +29,20 @@ def load_data() -> None:
 
 
 def is_correct_bracket_seq(data: str) -> bool:
-    bracket_start: List[str] = [']', '}', ')']
-    bracket_end: List[str] = ['[', '{', '(']
-    count_bracket = Counter(data)
-    for b1, b2 in zip(bracket_start, bracket_end):
-        if count_bracket[b1] != count_bracket[b2]:
-            return False
+    stack: Stack = Stack()
+    bk: Dict = {'[': ']', '{': '}', '(': ')'}
+    for bra in data:
+        if bra in bk.keys():
+            stack.push(bra)
+            continue
+        if bra in bk.values():
+            if stack.size() == 0:
+                return False
+            if bk[stack.peek()] == bra:
+                stack.pop()
+            else:
+                return False
+
     return True
 
 
@@ -21,4 +50,4 @@ if __name__ == '__main__':
     load_data()
     # import timeit
     #
-    # print(timeit.timeit("load_data()", number=1000, setup="from __main__ import load_data"))
+    # print(timeit.timeit("load_data()", number=10, setup="from __main__ import load_data"))
