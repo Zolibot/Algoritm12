@@ -1,0 +1,89 @@
+10
+pop
+pop
+push 4
+get_max
+push -5
+get_max
+push 70
+get_max
+push 42
+get_max
+push -53
+get_max
+push 74
+get_max
+push 41
+get_max
+push -52
+push 7
+push 45
+push -57
+get_max
+push 788
+get_max
+push 488
+get_max
+push -58
+get_max
+push 78
+push 48
+push -588
+get_max
+get_max
+get_max
+push 78
+push 48
+push -5800
+push 78
+push 48
+push -58
+get_max
+push 78
+get_max
+push 4
+push -5
+push 7
+push 4
+push -5
+push 7
+push 4
+get_max
+push -5
+get_max
+get_max
+push 7
+push 4
+push -5
+push 7
+get_max
+push 4
+push -5
+push 7
+push 4
+push -5
+push 7
+push 4
+push -5
+push 7
+push 4
+push -5
+push 7
+push 4
+push -5
+get_max
+get_max
+push 7
+push 4
+push -5
+push 7
+push 4
+push -5
+push 7
+get_max
+push 4
+push -5
+push 7
+pop
+pop
+get_max
