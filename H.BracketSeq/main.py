@@ -42,7 +42,8 @@ def is_correct_bracket_seq(data: str) -> bool:
                 stack.pop()
             else:
                 return False
-
+    if stack.size() != 0:
+        return False
     return True
 
 

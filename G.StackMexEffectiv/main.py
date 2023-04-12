@@ -53,14 +53,15 @@ def load_data():
 
 def stack_interface(data: str, stack: Stack):
     command = data.split()
-    if len(command) > 1:
+    length = len(command)
+    if length > 1:
         stack.COMMAND[data.split()[0]](int(data.split()[1]))
-    else:
+    elif length == 1:
         stack.COMMAND[data.split()[0]]()
 
 
 if __name__ == '__main__':
-    # load_data()
-    import timeit
-
-    print(timeit.timeit("load_data()", number=1000, setup="from __main__ import load_data"))
+    load_data()
+    # import timeit
+    #
+    # print(timeit.timeit("load_data()", number=1000, setup="from __main__ import load_data"))

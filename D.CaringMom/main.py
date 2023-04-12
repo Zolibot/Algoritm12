@@ -1,7 +1,7 @@
 # ! change LOCAL to False before submitting !
 # set LOCAL to True for local testing
 
-LOCAL = True
+LOCAL = False
 
 if LOCAL:
     class Node:
@@ -23,7 +23,7 @@ def solution(node, elem):
         idx += 1
         node = node.next_item
         if node.next_item is None:
-            return None
+            return -1
     return idx
 
 

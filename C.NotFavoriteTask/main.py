@@ -1,7 +1,7 @@
 # ! change LOCAL to False before submitting !
 # set LOCAL to True for local testing
 
-LOCAL = True
+LOCAL = False
 
 if LOCAL:
     class Node:
@@ -17,12 +17,18 @@ def print_node(node):
 
 
 def solution(node, idx):
-    head = node
-    while idx:
+    def get_node(n, i):
+        while i:
+            n = n.next_item
+            i -= 1
+        return n
+    if idx == 0:
         node = node.next_item
-        idx -= 1
-    head.next_item = node.next_item
-    return head
+    else:
+        prev_n = get_node(node, idx - 1)
+        next_n = get_node(node, idx + 1)
+        prev_n.next_item = next_n
+    return node
 
 
 def test():
@@ -33,7 +39,7 @@ def test():
     print_node(node0)
     print()
     new_head = solution(node0, 1)
-    print_node(node0)
+    print_node(new_head)
     assert new_head is node0
     assert new_head.next_item is node2
     assert new_head.next_item.next_item is node3
@@ -41,5 +47,5 @@ def test():
     # result is node0 -> node2 -> node3
 
 
-if __name__ == '__main__':
-    test()
+# if __name__ == '__main__':
+#     test()
