@@ -16,18 +16,6 @@ def factorial(n: int, k: int) -> int:
     return acc
 
 
-def factorial2(n):
-    acc = []
-    if n == 1 or n == 0:
-        return 1
-    for x in range(n - 1):
-        if x == 0 or x == 1:
-            acc.append(1)
-        else:
-            acc.append(sum(acc[-2:]))
-    return sum(acc) + 1
-
-
 def load_data():
     data = open('./input.txt', 'rt').readline().split()
     number = int(data[0])

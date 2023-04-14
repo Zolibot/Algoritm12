@@ -21,6 +21,7 @@ def load_data():
     number = int(file.readline().strip())
     print(factorial1(number))
 
+
 if __name__ == '__main__':
     load_data()
     # import timeit
