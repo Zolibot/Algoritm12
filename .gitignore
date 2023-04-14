@@ -3,4 +3,5 @@ venv/
 *.xml
 *.iml
 .idea/
+.vscode/
 .idea
