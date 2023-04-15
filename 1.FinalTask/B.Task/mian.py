@@ -1,42 +1,47 @@
 # 85780269
+from typing import List
+from operator import add, sub, mul, floordiv
+
+operators = {'/': floordiv, '*': mul, '+': add, '-': sub}
+
+
+class EmptyStackError(Exception):
+    def __init__(self):
+        super().__init__('error')
+
+
 class Stack:
     def __init__(self):
         self.items = []
-        self.index = 0
 
     def push(self, item):
-        self.index += 1
         self.items.append(item)
 
-    def pop(self):
-        if self.index == 0:
-            return "error"
-        self.index -= 1
-        return self.items.pop()
-
-    def peek(self):
-        return self.items[-1]
-
-    def size(self):
-        return len(self.items)
+    def pop(self) -> int:
+        try:
+            return self.items.pop()
+        except EmptyStackError:
+            raise EmptyStackError()
 
 
-def load_data():
+def load_data() -> List[str]:
     file = open("./input.txt", "rt")
-    data = [x for x in file.read().split()]
-    stack = Stack()
-    operand = {'/': '//', '*': '*', '+': '+', '-': '-'}
-    for x in data:
-        if x not in operand:
-            stack.push(x)
+    cmd = file.read().split()
+    return cmd
+
+
+def polish_notation_processing(store: Stack, data: List[str]) -> None:
+    for calc_input in data:
+        if calc_input not in operators:
+            store.push(calc_input)
         else:
-            first = str(stack.pop())
-            second = str(stack.pop())
-            s = second + operand[x] + first
-            a = eval(s)
-            stack.push(a)
-    print(stack.peek())
+            first, second = int(store.pop()), int(store.pop())
+            result = operators[calc_input](second, first)
+            store.push(result)
 
 
 if __name__ == "__main__":
-    load_data()
+    commands = load_data()
+    stack: Stack = Stack()
+    polish_notation_processing(stack, commands)
+    print(stack.pop())

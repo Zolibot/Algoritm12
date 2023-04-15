@@ -1,4 +1,4 @@
-# 85771865
+# 85826944
 from enum import IntEnum
 
 
@@ -74,7 +74,7 @@ def load_data():
     file = open('./input.txt', 'rt')
     _ = int(file.readline())
     max_len_deque = int(file.readline())
-    orders = [x for x in file.read().strip().split('\n')]
+    orders = file.read().strip().split('\n')
     return orders, max_len_deque
 
 
