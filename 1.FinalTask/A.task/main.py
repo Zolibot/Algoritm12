@@ -1,8 +1,29 @@
 # 85771865
-class DecQueue:
-    def __init__(self, n):
-        self.queue = [None] * n
-        self.max_n = n
+from enum import IntEnum
+
+
+class DequeError(Exception):
+    def __init__(self):
+        super().__init__("error")
+
+
+class FullDequeError(DequeError):
+    pass
+
+
+class EmptyDequeError(DequeError):
+    pass
+
+
+class Step(IntEnum):
+    NEXT: int = 1
+    LAST: int = -1
+
+
+class Deque:
+    def __init__(self, size):
+        self.deque = [None] * size
+        self.max_size = size
         self.head = 0
         self.tail = 0
         self.size = 0
@@ -10,39 +31,43 @@ class DecQueue:
     def is_empty(self):
         return self.size == 0
 
-    def push_front(self, x):
-        if self.size != self.max_n:
-            self.queue[self.tail] = x
-            self.tail = (self.tail + 1) % self.max_n
+    def is_full(self):
+        return self.size == self.max_size
+
+    def get_index(self, index, step: Step):
+        return (index + step) % self.max_size
+
+    def push_front(self, value):
+        if not self.is_full():
+            self.deque[self.tail] = value
+            self.tail = self.get_index(self.tail, Step.NEXT)
             self.size += 1
         else:
-            return "error"
+            raise FullDequeError()
 
-    def push_back(self, x):
-        if self.size != self.max_n:
-            self.head = (self.head - 1) % self.max_n
-            self.queue[self.head] = x
+    def push_back(self, value):
+        if not self.is_full():
+            self.head = self.get_index(self.head, Step.LAST)
+            self.deque[self.head] = value
             self.size += 1
         else:
-            return "error"
+            raise FullDequeError()
 
-    def pop_back(self):
+    def pop_back(self, agrs=None):
         if self.is_empty():
-            return "error"
-        x = self.queue[self.head]
-        self.queue[self.head] = None
-        self.head = (self.head + 1) % self.max_n
+            raise EmptyDequeError()
+        value = self.deque[self.head]
+        self.head = self.get_index(self.head, Step.NEXT)
         self.size -= 1
-        return x
+        return value
 
-    def pop_front(self):
+    def pop_front(self, agrs=None):
         if self.is_empty():
-            return "error"
-        self.tail = (self.tail - 1) % self.max_n
-        x = self.queue[self.tail]
-        self.queue[self.tail] = None
+            raise EmptyDequeError()
+        self.tail = self.get_index(self.tail, Step.LAST)
+        value = self.deque[self.tail]
         self.size -= 1
-        return x
+        return value
 
 
 def load_data():
@@ -50,28 +75,19 @@ def load_data():
     _ = int(file.readline())
     max_len_queue = int(file.readline())
     commands = [x for x in file.read().split("\n")]
-    queue = DecQueue(max_len_queue)
+    deque = Deque(max_len_queue)
     for cmd in commands:
-        queue_interface(cmd, queue)
+        deque_processing(cmd, deque)
 
 
-def queue_interface(data: str, queue: DecQueue):
-    command = {
-        "push_front": queue.push_front,
-        "push_back": queue.push_back,
-        "pop_front": queue.pop_front,
-        "pop_back": queue.pop_back,
-    }
-    cmd = data.split()
-    length = len(cmd)
-    msg = None
-    if length > 1:
-        msg = command[cmd[0]](int(cmd[1]))
-    elif length == 1:
-        msg = command[cmd[0]]()
-
-    if msg is not None:
-        print(msg)
+def deque_processing(cmd: str, deque: Deque):
+    cmd,  *args = cmd.split() * 2
+    try:
+        msg = getattr(deque, cmd)(args[0])
+        if msg is not None:
+            print(msg)
+    except Exception as e:
+        print(e)
 
 
 if __name__ == "__main__":
