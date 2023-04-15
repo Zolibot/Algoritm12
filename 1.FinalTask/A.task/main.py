@@ -74,20 +74,18 @@ def load_data():
     file = open('./input.txt', 'rt')
     _ = int(file.readline())
     max_len_deque = int(file.readline())
-    orders = [x for x in file.read().split('\n')]
+    orders = [x for x in file.read().strip().split('\n')]
     return orders, max_len_deque
 
 
 def deque_processing(data: str, deq: Deque):
-    if not data:
-        return
     data,  *args = data.split() * 2
     try:
         msg = getattr(deq, data)(args[0])
         if msg is not None:
             print(msg)
-    except Exception as e:
-        print(e)
+    except DequeError as error:
+        print(error)
 
 
 if __name__ == '__main__':

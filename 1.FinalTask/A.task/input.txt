@@ -4,6 +4,14 @@ pop_front
 pop_front
 push_front 741
 push_front 648
+push_front 741
+push_front 648
+push_front 741
+push_front 648
+push_front 741
+push_front 648
+push_front 741
+push_front 648
 pop_front
 pop_back
 pop_front
