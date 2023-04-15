@@ -4,7 +4,7 @@ from enum import IntEnum
 
 class DequeError(Exception):
     def __init__(self):
-        super().__init__("error")
+        super().__init__('error')
 
 
 class FullDequeError(DequeError):
@@ -71,24 +71,27 @@ class Deque:
 
 
 def load_data():
-    file = open("./input.txt", "rt")
+    file = open('./input.txt', 'rt')
     _ = int(file.readline())
-    max_len_queue = int(file.readline())
-    commands = [x for x in file.read().split("\n")]
-    deque = Deque(max_len_queue)
-    for cmd in commands:
-        deque_processing(cmd, deque)
+    max_len_deque = int(file.readline())
+    orders = [x for x in file.read().split('\n')]
+    return orders, max_len_deque
 
 
-def deque_processing(cmd: str, deque: Deque):
-    cmd,  *args = cmd.split() * 2
+def deque_processing(data: str, deq: Deque):
+    if not data:
+        return
+    data,  *args = data.split() * 2
     try:
-        msg = getattr(deque, cmd)(args[0])
+        msg = getattr(deq, data)(args[0])
         if msg is not None:
             print(msg)
     except Exception as e:
         print(e)
 
 
-if __name__ == "__main__":
-    load_data()
+if __name__ == '__main__':
+    commands, size_deque = load_data()
+    deque = Deque(size_deque)
+    for cmd in commands:
+        deque_processing(cmd, deque)
