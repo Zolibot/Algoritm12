@@ -1,4 +1,4 @@
-# 85780269
+# 85832684
 from typing import List
 from operator import add, sub, mul, floordiv
 
@@ -25,7 +25,7 @@ class Stack:
 
 
 def load_data() -> List[str]:
-    file = open("./input.txt", "rt")
+    file = open('./input.txt', 'rt')
     cmd = file.read().split()
     return cmd
 
@@ -40,7 +40,7 @@ def polish_notation_processing(store: Stack, data: List[str]) -> None:
             store.push(result)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     commands = load_data()
     stack: Stack = Stack()
     polish_notation_processing(stack, commands)

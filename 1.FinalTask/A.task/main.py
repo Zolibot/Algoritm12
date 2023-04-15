@@ -1,4 +1,4 @@
-# 85826944
+# 85832738
 from enum import IntEnum
 
 
@@ -53,7 +53,7 @@ class Deque:
         else:
             raise FullDequeError()
 
-    def pop_back(self, agrs=None):
+    def pop_back(self, args=None):
         if self.is_empty():
             raise EmptyDequeError()
         value = self.deque[self.head]
@@ -61,7 +61,7 @@ class Deque:
         self.size -= 1
         return value
 
-    def pop_front(self, agrs=None):
+    def pop_front(self, args=None):
         if self.is_empty():
             raise EmptyDequeError()
         self.tail = self.get_index(self.tail, Step.LAST)
@@ -79,7 +79,7 @@ def load_data():
 
 
 def deque_processing(data: str, deq: Deque):
-    data,  *args = data.split() * 2
+    data, *args = data.split() * 2
     try:
         msg = getattr(deq, data)(args[0])
         if msg is not None:
