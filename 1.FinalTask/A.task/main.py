@@ -1,23 +1,15 @@
-# 85832738
-from enum import IntEnum
+# 85874657
+from typing import Optional
 
 
-class DequeError(Exception):
-    def __init__(self):
-        super().__init__('error')
-
-
-class FullDequeError(DequeError):
+class FullDequeError(Exception):
+    """ Deque size exceeded. """
     pass
 
 
-class EmptyDequeError(DequeError):
+class EmptyDequeError(Exception):
+    """ Emptying the deque. """
     pass
-
-
-class Step(IntEnum):
-    NEXT: int = 1
-    LAST: int = -1
 
 
 class Deque:
@@ -34,37 +26,36 @@ class Deque:
     def is_full(self):
         return self.size == self.max_size
 
-    def get_index(self, index, step: Step):
-        return (index + step) % self.max_size
+    def get_index(self, index, add: bool):
+        index = index + 1 if add else index - 1
+        return index % self.max_size
 
     def push_front(self, value):
-        if not self.is_full():
-            self.deque[self.tail] = value
-            self.tail = self.get_index(self.tail, Step.NEXT)
-            self.size += 1
-        else:
-            raise FullDequeError()
+        if self.is_full():
+            raise FullDequeError('error')
+        self.deque[self.tail] = value
+        self.tail = self.get_index(self.tail, False)
+        self.size += 1
 
     def push_back(self, value):
-        if not self.is_full():
-            self.head = self.get_index(self.head, Step.LAST)
-            self.deque[self.head] = value
-            self.size += 1
-        else:
-            raise FullDequeError()
+        if self.is_full():
+            raise FullDequeError('error')
+        self.head = self.get_index(self.head, True)
+        self.deque[self.head] = value
+        self.size += 1
 
     def pop_back(self, args=None):
         if self.is_empty():
-            raise EmptyDequeError()
+            raise EmptyDequeError('error')
         value = self.deque[self.head]
-        self.head = self.get_index(self.head, Step.NEXT)
+        self.head = self.get_index(self.head, False)
         self.size -= 1
         return value
 
     def pop_front(self, args=None):
         if self.is_empty():
-            raise EmptyDequeError()
-        self.tail = self.get_index(self.tail, Step.LAST)
+            raise EmptyDequeError('error')
+        self.tail = self.get_index(self.tail, True)
         value = self.deque[self.tail]
         self.size -= 1
         return value
@@ -72,24 +63,28 @@ class Deque:
 
 def load_data():
     file = open('./input.txt', 'rt')
-    _ = int(file.readline())
+    order_count = int(file.readline())
     max_len_deque = int(file.readline())
-    orders = file.read().strip().split('\n')
-    return orders, max_len_deque
+    orders = file.read().split('\n')
+    return orders, order_count, max_len_deque
 
 
-def deque_processing(data: str, deq: Deque):
-    data, *args = data.split() * 2
+def deque_processing(data: str, deq: Deque) -> Optional[str]:
+    data = data.split()
+    message = None
     try:
-        msg = getattr(deq, data)(args[0])
-        if msg is not None:
-            print(msg)
-    except DequeError as error:
+        message = getattr(deq, data[0])(*data[1:])
+    except FullDequeError as error:
         print(error)
+    except EmptyDequeError as error:
+        print(error)
+    return message
 
 
 if __name__ == '__main__':
-    commands, size_deque = load_data()
+    commands, count, size_deque = load_data()
     deque = Deque(size_deque)
-    for cmd in commands:
-        deque_processing(cmd, deque)
+    for inx in range(count):
+        msg = deque_processing(commands[inx], deque)
+        if msg is not None:
+            print(msg)
