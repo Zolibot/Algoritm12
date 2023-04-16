@@ -1,4 +1,4 @@
-# 85874657
+# 85875161
 from typing import Optional
 
 
@@ -69,7 +69,7 @@ def load_data():
     return orders, order_count, max_len_deque
 
 
-def deque_processing(data: str, deq: Deque) -> Optional[str]:
+def deque_handle(data: str, deq: Deque) -> Optional[str]:
     data = data.split()
     message = None
     try:
@@ -85,6 +85,6 @@ if __name__ == '__main__':
     commands, count, size_deque = load_data()
     deque = Deque(size_deque)
     for inx in range(count):
-        msg = deque_processing(commands[inx], deque)
+        msg = deque_handle(commands[inx], deque)
         if msg is not None:
             print(msg)

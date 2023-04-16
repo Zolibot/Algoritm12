@@ -1,13 +1,8 @@
-# 85832684
+# 85876108
 from typing import List
 from operator import add, sub, mul, floordiv
 
 operators = {'/': floordiv, '*': mul, '+': add, '-': sub}
-
-
-class EmptyStackError(Exception):
-    def __init__(self):
-        super().__init__('error')
 
 
 class Stack:
@@ -20,28 +15,29 @@ class Stack:
     def pop(self) -> int:
         try:
             return self.items.pop()
-        except EmptyStackError:
-            raise EmptyStackError()
+        except IndexError:
+            raise IndexError('pop from empty stack')
 
 
 def load_data() -> List[str]:
     file = open('./input.txt', 'rt')
-    cmd = file.read().split()
+    cmd = [x if x in operators else int(x) for x in file.read().split()]
     return cmd
 
 
-def polish_notation_processing(store: Stack, data: List[str]) -> None:
+def calc_handle(data: List[str]) -> int:
+    stack: Stack = Stack()
     for calc_input in data:
         if calc_input not in operators:
-            store.push(calc_input)
+            stack.push(calc_input)
         else:
-            first, second = int(store.pop()), int(store.pop())
+            first, second = stack.pop(), stack.pop()
             result = operators[calc_input](second, first)
-            store.push(result)
+            stack.push(result)
+    return stack.pop()
 
 
 if __name__ == '__main__':
     commands = load_data()
-    stack: Stack = Stack()
-    polish_notation_processing(stack, commands)
-    print(stack.pop())
+    msg = calc_handle(commands)
+    print(msg)
