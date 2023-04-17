@@ -1,4 +1,4 @@
-# 85876108
+# 85937789
 from typing import List
 from operator import add, sub, mul, floordiv
 
@@ -21,7 +21,7 @@ class Stack:
 
 def load_data() -> List[str]:
     file = open('./input.txt', 'rt')
-    cmd = [x if x in operators else int(x) for x in file.read().split()]
+    cmd = file.read().split()
     return cmd
 
 
@@ -29,7 +29,7 @@ def calc_handle(data: List[str]) -> int:
     stack: Stack = Stack()
     for calc_input in data:
         if calc_input not in operators:
-            stack.push(calc_input)
+            stack.push(int(calc_input))
         else:
             first, second = stack.pop(), stack.pop()
             result = operators[calc_input](second, first)
@@ -39,5 +39,5 @@ def calc_handle(data: List[str]) -> int:
 
 if __name__ == '__main__':
     commands = load_data()
-    msg = calc_handle(commands)
-    print(msg)
+    message = calc_handle(commands)
+    print(message)

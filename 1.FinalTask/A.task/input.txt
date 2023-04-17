@@ -1,11 +1,9 @@
-9
-8
-push_back -977
-pop_back
-pop_back
-push_front -86
-pop_back
-push_back 81
+7
+7
+pop_front
+pop_front
+push_front 741
+push_front 648
 pop_front
 pop_back
-pop_back
+pop_front

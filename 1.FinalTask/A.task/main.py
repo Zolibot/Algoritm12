@@ -1,13 +1,21 @@
-# 85875161
+# 85939044
 from typing import Optional
 
 
-class FullDequeError(Exception):
+class DequeException(Exception):
+    """ Base class deque exception. """
+    def __init__(self, *args):
+        super().__init__(*args)
+        print(*args)
+
+
+class FullDequeError(DequeException):
     """ Deque size exceeded. """
+
     pass
 
 
-class EmptyDequeError(Exception):
+class EmptyDequeError(DequeException):
     """ Emptying the deque. """
     pass
 
@@ -71,20 +79,19 @@ def load_data():
 
 def deque_handle(data: str, deq: Deque) -> Optional[str]:
     data = data.split()
-    message = None
+    info = None
     try:
-        message = getattr(deq, data[0])(*data[1:])
-    except FullDequeError as error:
-        print(error)
-    except EmptyDequeError as error:
-        print(error)
-    return message
+        info = getattr(deq, data[0])(*data[1:])
+    except (FullDequeError, EmptyDequeError):
+        pass
+
+    return info
 
 
 if __name__ == '__main__':
     commands, count, size_deque = load_data()
     deque = Deque(size_deque)
-    for inx in range(count):
-        msg = deque_handle(commands[inx], deque)
-        if msg is not None:
-            print(msg)
+    for index in range(count):
+        message = deque_handle(commands[index], deque)
+        if message is not None:
+            print(message)
