@@ -1,4 +1,4 @@
-# 85875161
+# 85995466
 from typing import Optional
 
 
@@ -70,21 +70,18 @@ def load_data():
 
 
 def deque_handle(data: str, deq: Deque) -> Optional[str]:
-    data = data.split()
-    message = None
+    command, *args = data.split()
     try:
-        message = getattr(deq, data[0])(*data[1:])
-    except FullDequeError as error:
-        print(error)
-    except EmptyDequeError as error:
-        print(error)
-    return message
+        info = getattr(deq, command)(*args)
+    except (FullDequeError, EmptyDequeError) as error:
+        info = error
+    return info
 
 
 if __name__ == '__main__':
     commands, count, size_deque = load_data()
     deque = Deque(size_deque)
-    for inx in range(count):
-        msg = deque_handle(commands[inx], deque)
-        if msg is not None:
-            print(msg)
+    for index in range(count):
+        message = deque_handle(commands[index], deque)
+        if message is not None:
+            print(message)
